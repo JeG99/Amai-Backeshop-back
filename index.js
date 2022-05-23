@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Router  = require('./routes/routes');
 
 // User controller
-const cont = require('./controllers/user');
+const { test, signup, login, remove, change_pass } = require('./controllers/user');
 
 // Env variables
 const env = require('./.env');
@@ -29,8 +29,14 @@ app.listen(env.port, () => {console.log(`Server is running at port ${env.port}`)
 app.get('/express_backend', (req, res) => {
     res.send({ express: 'BACKEND CONNECTED'}); 
 });
-
+/*
 app.get('/login', (req, res) => {
-    const auth = cont.login(req.email, req.pass);
+    const auth = cont.login(req.body.email, req.body.pass);
     res.send({ auth: auth });
+});*/
+
+app.get('/signup', (req, res) => {
+    const result = signup(req.body.email, req.body.name, req.body.pass);
+    console.log(result);
+    res.send(result);
 });

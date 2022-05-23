@@ -14,10 +14,13 @@ function signup(email, name, pass) {
     userModel.find({email: email}).exec(function(err, res) {
         if(err) 
             return console.log(err);
-        else if(res.length === 0)
-            return new_user.save();
-        else 
-            return "Account already exists";
+        else if(res.length === 0) {
+            new_user.save();
+            return {'res': 'Account succesfully created'};
+        }
+        else {
+            return {'err': "Account already exists"};
+        }
     });
 }
 
@@ -28,7 +31,7 @@ function login(email, pass) {
         else if(res.length === 0)
             return "Wrong email or password";
         else
-            return res[0]._id;
+            return res;
     });
 }
 
