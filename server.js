@@ -1,9 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Router  = require('./routes/routes');
-
-// User controller
-const cont = require('./controllers/user');
+const { user_list, signup, login, remove, change_pass } = require('./controllers/user');
 
 // Env variables
 const env = require('./.env');
@@ -27,10 +25,25 @@ app.use(Router);
 app.listen(env.port, () => {console.log(`Server is running at port ${env.port}`)});
 
 app.get('/express_backend', (req, res) => {
-    res.send({ express: 'BACKEND CONNECTED'}); 
+    res.send({ express: 'BACKEND CONNECTED'});
+});
+
+app.get('/user_list', (req, res) => {
+    user_list(res);
+});
+
+app.get('/signup', (req, res) => {
+    signup(req.body.email, req.body.name, req.body.pass, res);
 });
 
 app.get('/login', (req, res) => {
-    const auth = cont.login(req.email, req.pass);
-    res.send({ auth: auth });
+    login(req.body.email, req.body.pass, res);
+});
+
+app.get('/remove', (req, res) => {
+    remove(req.body.email, req.body.pass, res);
+});
+
+app.get('/change_pass', (req, res) => {
+    change_pass(req.body.email, req.body.old_pass, req.body.new_pass, res);
 });

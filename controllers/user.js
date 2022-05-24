@@ -1,57 +1,59 @@
 const userModel = require('../models/user');
 
-function test() {
+function user_list(response) {
     userModel.find({}).exec(function(err, res) {
         if(err)
-            return console.log(err);
+            response.send(err);
         else
-            return console.log(res);
+            response.send({users: res});
     });
 }
 
-function signup(email, name, pass) {
+function signup(email, name, pass, response) {
     const new_user = new userModel({name: name, email: email, pass: pass});
     userModel.find({email: email}).exec(function(err, res) {
         if(err) 
-            return console.log(err);
-        else if(res.length === 0)
-            return new_user.save();
+            response.send(err);
+        else if(res.length === 0) {
+            new_user.save()
+            response.send({acc: "Account created"});
+        }
         else 
-            return "Account already exists";
+            response.send({acc: "Account already exists"});
     });
 }
 
-function login(email, pass) {
+function login(email, pass, response) {
     userModel.find({email: email, pass: pass}).exec(function(err, res) {
         if(err)
-            return console.log(err);
+            response.send(err);
         else if(res.length === 0)
-            return "Wrong email or password";
+            response.send({auth: "Wrong email or password"});
         else
-            return res[0]._id;
+            response.send({auth: res[0]._id});
     });
 }
 
-function remove(email, pass) {
+function remove(email, pass, response) {
     userModel.updateOne({email: email, pass: pass}, {deleted: true}).exec(function(err, res) {
         if(err)
-            return console.log(err);
+            response.send(err);
         else
-            return res.modifiedCount > 0; // true o false
+            response.send(res.modifiedCount > 0); // true o false
     });
 }
 
-function change_pass(email, old_pass, new_pass) {
+function change_pass(email, old_pass, new_pass, response) {
     userModel.updateOne({email: email, pass: old_pass}, {pass: new_pass}).exec(function(err, res) {
         if(err)
-            return console.log(err);
+            response.send(err);
         else
-            return res.modifiedCount > 0;
+            response.send(res.modifiedCount > 0);
     });
 }
 
 module.exports = {
-    test,
+    user_list,
     signup, 
     login,
     remove,
