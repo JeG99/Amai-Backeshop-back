@@ -16,9 +16,9 @@ function createProduct(name,price,photo,description,response){
             response.send(err)
         } else if(res.length === 0){
             new_product.save()
-            response.send("New product added to catalog")
+            response.send({result: "New product added to catalog"})
         } else {
-            response.send("Product already exists")
+            response.send({result: "Product already exists"})
         }
     })
 }
@@ -28,7 +28,7 @@ function deleteProduct(name,response){
         if(err)
             response.send(err)
         else
-            response.send("Product deleted")
+            response.send({result: "Product deleted"})
     })
 }
 

@@ -4,6 +4,8 @@ const bp = require('body-parser')
 const mongoose = require('mongoose');
 const Router  = require('./routes/routes');
 const { user_list, signup, login, remove, change_pass } = require('./controllers/user');
+const { product_list, createProduct, deleteProduct } = require('./controllers/product');
+const { order_list, createOrder, user_orders } = require('./controllers/order');
 
 // Env variables
 const env = require('./.env');
@@ -50,4 +52,25 @@ app.post('/remove', (req, res) => {
 
 app.post('/change_pass', (req, res) => {
     change_pass(req.body.email, req.body.old_pass, req.body.new_pass, res);
+});
+
+app.get('/product_list', (req, res) => {
+    product_list(res);
+});
+
+app.post('/create_product', (req, res) => {
+    createProduct(req.body.product_name, req.body.price, req.body.photo, req.body.description, res);
+});
+
+app.post('/delete_product', (req, res) => {
+    createProduct(req.body.name, res);
+});
+
+app.post('/create_order', (req, res) => {
+    createOrder(req.body.uid, req.body.product_name, req.body.price, req.body.state, res)
+});
+
+app.post('/user_orders', (req, res) => {
+    console.log(req.body);
+    user_orders(req.body.uid, req.body.state, res);
 });

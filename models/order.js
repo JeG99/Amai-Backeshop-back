@@ -1,13 +1,20 @@
 const mongoose = require("mongoose");
 
 const OrderSchema = new mongoose.Schema({
-    product_list: {
-        type: Array,
-        required: true,
-        default:[]
+    user_id: {
+        type: String,
+        require: true
     },
-    total_price: {
+    product_name: {
+        type: String,
+        required: true,
+    },
+    price: {
         type: Number,
+        required: true
+    },
+    state: {
+        type: String,
         required: true
     }
 });
