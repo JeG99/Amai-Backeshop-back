@@ -1,13 +1,17 @@
 const express = require('express');
+const cors = require('cors');
+const bp = require('body-parser')
 const mongoose = require('mongoose');
 const Router  = require('./routes/routes');
 const { user_list, signup, login, remove, change_pass } = require('./controllers/user');
 
 // Env variables
 const env = require('./.env');
-
 const app = express();
 
+app.use(bp.json())
+//app.use(bp.urlencoded({ extended: false }))
+app.use(cors());
 app.use(express.json());
 
 mongoose.connect(
@@ -32,18 +36,18 @@ app.get('/user_list', (req, res) => {
     user_list(res);
 });
 
-app.get('/signup', (req, res) => {
+app.post('/signup', (req, res) => {
     signup(req.body.email, req.body.name, req.body.pass, res);
 });
 
-app.get('/login', (req, res) => {
+app.post('/login', (req, res) => {
     login(req.body.email, req.body.pass, res);
 });
 
-app.get('/remove', (req, res) => {
+app.post('/remove', (req, res) => {
     remove(req.body.email, req.body.pass, res);
 });
 
-app.get('/change_pass', (req, res) => {
+app.post('/change_pass', (req, res) => {
     change_pass(req.body.email, req.body.old_pass, req.body.new_pass, res);
 });

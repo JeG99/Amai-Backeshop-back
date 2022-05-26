@@ -18,7 +18,7 @@ function signup(email, name, pass, response) {
             new_user.save()
             response.send({acc: "Account created"});
         }
-        else 
+        else
             response.send({acc: "Account already exists"});
     });
 }
@@ -28,9 +28,9 @@ function login(email, pass, response) {
         if(err)
             response.send(err);
         else if(res.length === 0)
-            response.send({auth: "Wrong email or password"});
+            response.send({auth: false});
         else
-            response.send({auth: res[0]._id});
+            response.send(JSON.stringify({auth: res[0]}));
     });
 }
 
