@@ -25,17 +25,24 @@ function user_orders(userId, state, response) {
         if(err)
             response.send(err)
         else {
-            console.log(res)
             response.send({orders: res})
         }
     })
 }
 
-function close_orders(userId, orderArray, response) {
+function close_orders(userId, response) { 
+    orderModel.updateMany({user_id: userId, state: 'pending'}, { $set: { state: 'closed' }}).exec(function(err, res){
+        if(err)
+            response.send(err);
+        else {
+            response.send({orders: res})
+        }
+    })
 }
 
 module.exports = {
     order_list,
     createOrder,
-    user_orders
+    user_orders,
+    close_orders
 }

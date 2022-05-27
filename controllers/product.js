@@ -28,7 +28,7 @@ function deleteProduct(name,response){
         if(err)
             response.send(err)
         else
-            response.send({result: "Product deleted"})
+            response.send({result: res})
     })
 }
 
