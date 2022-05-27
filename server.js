@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const Router  = require('./routes/routes');
 const { user_list, signup, login, remove, change_pass } = require('./controllers/user');
 const { product_list, createProduct, deleteProduct } = require('./controllers/product');
-const { order_list, createOrder, user_orders, close_orders } = require('./controllers/order');
+const { order_list, createOrder, user_orders, close_orders, deleteOrder } = require('./controllers/order');
 
 // Env variables
 const env = require('./.env');
@@ -63,7 +63,6 @@ app.post('/create_product', (req, res) => {
 });
 
 app.post('/delete_product', (req, res) => {
-    console.log(req.body);
     deleteProduct(req.body.name, res);
 });
 
@@ -77,4 +76,8 @@ app.post('/user_orders', (req, res) => {
 
 app.post('/close_orders', (req, res) => {
     close_orders(req.body.uid, res);
+});
+
+app.post('/delete_order', (req, res) => {
+    deleteOrder(req.body.uid, req.body.name, res);
 });

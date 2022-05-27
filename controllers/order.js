@@ -40,9 +40,19 @@ function close_orders(userId, response) {
     })
 }
 
+function deleteOrder(uid, productName,response){
+    orderModel.deleteOne({user_id:uid, product_name:productName, state:'pending'}).exec(function(err,res){
+        if(err)
+            response.send(err)
+        else
+            response.send({result: res})
+    })
+}
+
 module.exports = {
     order_list,
     createOrder,
     user_orders,
-    close_orders
+    close_orders,
+    deleteOrder
 }
